@@ -456,7 +456,7 @@ public class LobbyFrame extends JFrame {
                 User user = (User) value;
                 String status = user.getStatus() != null ? user.getStatus() : "IDLE";
                 boolean isPlaying = "PLAYING".equalsIgnoreCase(status);
-                String statusText = isPlaying ? "Dang choi" : "San sang";
+                String statusText = isPlaying ? "Đang choi" : "Sẵn sàng";
                 label.setText(String.format("%s (%.0f) - %s", user.getName(), user.getScore(), statusText));
 
                 if (!isSelected) {
@@ -465,7 +465,7 @@ public class LobbyFrame extends JFrame {
 
                 if (user.getId() == currentUser.getId()) {
                     label.setFont(Theme.FONT_INPUT.deriveFont(Font.BOLD));
-                    label.setText(label.getText() + " (Ban)");
+                    label.setText(label.getText() + " (Bạn)");
                 }
             }
             return label;
