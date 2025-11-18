@@ -165,7 +165,6 @@ public class LobbyFrame extends JFrame {
         // --- Panel chờ ---
         JPanel matchmakeIdlePanel = new JPanel(new BorderLayout());
         matchmakeIdlePanel.setBackground(Theme.COLOR_WHITE);
-        matchmakeIdlePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         btnMatchmake = new JButton("Ghép đấu");
 
         Theme.styleButtonPrimary(btnMatchmake); 
@@ -181,7 +180,6 @@ public class LobbyFrame extends JFrame {
         // --- Panel đang tìm trận ---
         JPanel matchmakeWaitingPanel = new JPanel(new BorderLayout(10, 10));
         matchmakeWaitingPanel.setBackground(Theme.COLOR_WHITE);
-        matchmakeWaitingPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         btnCancelMatchmake = new JButton("Hủy tìm trận");
 
         Theme.styleButtonPrimary(btnCancelMatchmake); 
@@ -385,13 +383,16 @@ public class LobbyFrame extends JFrame {
                 for (java.awt.event.ActionListener al : btnMatchmake.getActionListeners()) {
                     btnMatchmake.removeActionListener(al);
                 }
+                for (java.awt.event.MouseListener ml : btnMatchmake.getMouseListeners()) {
+                    btnMatchmake.removeMouseListener(ml);
+                }
                 btnMatchmake.addActionListener(e -> controller.requestMatchmaking());
                 btnMatchmake.setText("Ghép đấu"); 
 
-                btnMatchmake.setBackground(Theme.COLOR_PRIMARY);
+                btnMatchmake.setBackground(Theme.COLOR_ACCENT);
                 btnMatchmake.setUI(new Theme.RoundedButtonUI());
-                ((Theme.RoundedBorder)btnMatchmake.getBorder()).setColor(Theme.COLOR_PRIMARY);
-                btnMatchmake.addMouseListener(createHoverEffect(btnMatchmake, Theme.COLOR_PRIMARY));
+                ((Theme.RoundedBorder)btnMatchmake.getBorder()).setColor(Theme.COLOR_ACCENT);
+                btnMatchmake.addMouseListener(createHoverEffect(btnMatchmake, Theme.COLOR_ACCENT));
 
                 setMatchmakingStatus(false); 
             }
