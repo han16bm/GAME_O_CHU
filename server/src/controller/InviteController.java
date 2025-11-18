@@ -1,11 +1,10 @@
 package controller;
 
+import java.util.HashMap;
 import model.MatchRoom;
 import service.MatchService;
 import service.UserService;
 import util.JsonUtil;
-
-import java.io.IOException;
 
 public class InviteController {
     private final UserService userService;
@@ -18,7 +17,7 @@ public class InviteController {
 
     public void handleInvite(int fromUserId, int toUserId) {
         if (!userService.isUserOnline(toUserId)) {
-            String resp = JsonUtil.toJson(new java.util.HashMap<String, Object>() {{
+            String resp = JsonUtil.toJson(new HashMap<String, Object>() {{
                 put("action", "invite_response");
                 put("status", "error");
                 put("message", "Người chơi không online.");
@@ -27,7 +26,7 @@ public class InviteController {
             return;
         }
 
-        String req = JsonUtil.toJson(new java.util.HashMap<String, Object>() {{
+        String req = JsonUtil.toJson(new HashMap<String, Object>() {{
             put("action", "invite_request");
             put("fromUserId", fromUserId);
         }});
@@ -36,7 +35,7 @@ public class InviteController {
 
     public void handleInviteResponse(int fromUserId, int toUserId, boolean accepted) {
         if (!accepted) {
-            String resp = JsonUtil.toJson(new java.util.HashMap<String, Object>() {{
+            String resp = JsonUtil.toJson(new HashMap<String, Object>() {{
                 put("action", "invite_response");
                 put("fromUserId", fromUserId);
                 put("accepted", false);

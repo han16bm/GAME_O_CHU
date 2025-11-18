@@ -56,9 +56,6 @@ public class CategoryDAO {
     
     public String getRandomCategoryCode() {
         List<String> categories = getAllCategoryCodes();
-        if (categories.isEmpty()) {
-            return "HOAQUA"; // fallback default
-        }
         int randomIndex = (int) (Math.random() * categories.size());
         return categories.get(randomIndex);
     }

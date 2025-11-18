@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 import util.DBConnection;

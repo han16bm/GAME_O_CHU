@@ -55,7 +55,7 @@ public class MatchFrame extends JFrame {
         JPanel main = new JPanel(new BorderLayout(15, 15));
         main.setBorder(new EmptyBorder(12, 12, 12, 12));
 
-        // Top: timer + scores
+        // Trên: timer + điểm số
         JPanel top = new JPanel(new GridLayout(1, 3, 10, 0));
         timerLabel = makeInfoLabel("Thời gian: 90s");
         scoreLabelSelf = makeInfoLabel("Điểm của bạn: 0");
@@ -123,7 +123,7 @@ public class MatchFrame extends JFrame {
                 tf.setHorizontalAlignment(JTextField.CENTER);
                 tf.setFont(new Font("Consolas", Font.BOLD, 20));
                 tf.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-                // If server provided revealed pattern, prefill revealed letters and disable editing for them
+                // Nếu server cung cấp pattern hiển thị, điền trước các chữ cái đã hiển thị và vô hiệu hóa chỉnh sửa
                 String revealed = w.has("revealed") ? w.get("revealed").getAsString() : null;
                 if (revealed != null && revealed.length() > i) {
                     char rc = revealed.charAt(i);
@@ -143,9 +143,9 @@ public class MatchFrame extends JFrame {
                         if (Character.isLetter(ch)) {
                             tf.setText(("" + ch).toUpperCase());
                             sendMatchInput(wordIdx, charIdx, Character.toUpperCase(ch));
-                            // Move focus to next cell
+                            // Chuyển focus đến ô tiếp theo
                             SwingUtilities.invokeLater(() -> focusNext(inputs, charIdx));
-                            // Prevent default insertion of the typed char (avoids duplicate lowercase)
+                            // Ngăn chặn chèn mặc định của ký tự đã gõ (tránh trùng lặp chữ thường)
                             e.consume();
                         } else {
                             e.consume();
@@ -153,7 +153,7 @@ public class MatchFrame extends JFrame {
                     }
                 });
 
-                // keep existing text (revealed letter or underscore) so hint is visible
+                // giữ văn bản hiện có (chữ cái đã hiển thị hoặc gạch dưới) để gợi ý có thể nhìn thấy
 
                 inputs.add(tf);
                 cells.add(tf);
@@ -174,7 +174,7 @@ public class MatchFrame extends JFrame {
     private void updateScores(JsonObject data) {
         JsonObject players = data.has("players") ? data.get("players").getAsJsonObject() : null;
         if (players == null) return;
-        // players is a map keyed by userId (numbers become strings in JSON)
+        // players là map với key là userId (số trở thành chuỗi trong JSON)
         for (Map.Entry<String, JsonElement> e : players.entrySet()) {
             JsonObject ps = e.getValue().getAsJsonObject();
             int score = ps.has("score") ? ps.get("score").getAsInt() : 0;

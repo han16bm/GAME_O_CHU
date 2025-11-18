@@ -50,11 +50,11 @@ public class SocketHandler {
                 } else if (json.has("action")) {
                     type = json.get("action").getAsString();
                 } else {
-                    // Unknown envelope, skip
+                    // Envelope không xác định, bỏ qua
                     continue;
                 }
                 
-                // Broadcast message to all listeners (create copy to avoid ConcurrentModificationException)
+                // Broadcast tin nhắn đến tất cả listeners (tạo copy để tránh Exception)
                 List<SocketListener> listenersCopy = new ArrayList<>(listeners);
                 for (SocketListener listener : listenersCopy) {
                     listener.onMessage(type, json);

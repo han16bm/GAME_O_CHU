@@ -61,7 +61,7 @@ public class UserService {
         }
     }
 
-    // ------------------ Online user management ------------------
+    // ------------------ Quản lý người dùng trực tuyến ------------------
     public boolean addOnlineUser(User user) {
         if (userActiveMatch.containsKey(user.getId())) {
             user.setStatus("PLAYING");
@@ -87,7 +87,7 @@ public class UserService {
         return onlineUsers.size();
     }
 
-    // ------------------ Messaging hooks ------------------
+    // ------------------ Hooks gửi tin nhắn ------------------
     public interface MessageSender {
         void send(int userId, String message);
     }

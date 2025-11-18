@@ -12,15 +12,14 @@ public class DBConnection {
     
     private DBConnection() {
         try {
-            // Load MySQL JDBC driver
+            // Tải MySQL JDBC driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Test connection
-            try (Connection testConn = DriverManager.getConnection(url, user, password)) {
-                System.out.println("Database connection successful");
-            }
+            // Kiểm tra kết nối
+            DriverManager.getConnection(url, user, password).close();
+            System.out.println("Kết nối database thành công");
         } catch (ClassNotFoundException | SQLException e) {
-            System.err.println("Failed to initialize database connection: " + e.getMessage());
+            System.err.println("Lỗi kết nối đến database: " + e.getMessage());
             e.printStackTrace();
             System.exit(1);
         }

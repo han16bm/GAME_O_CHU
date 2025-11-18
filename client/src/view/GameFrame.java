@@ -4,7 +4,7 @@
  */
 package view;
 
-// Import Theme
+// Import các thành phần Theme
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -46,15 +46,15 @@ public class GameFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GameFrame.class.getName());
     
-    // Game state variables
+    // Biến trạng thái game
     private String roomId = "";
     private int selfUserId = 0;
     private int opponentUserId = 0; // Lưu ID của đối thủ
     private SocketHandler socketHandler;
     private final List<List<JTextField>> wordInputs = new ArrayList<>();
-    // Countdown timer fields
+    // Các trường timer đếm ngược
     private javax.swing.Timer countdownTimer;
-    private long matchEndTime = 0L; // epoch millis when match ends
+    private long matchEndTime = 0L; // millis khi trận đấu kết thúc
 
     // --- BIẾN KHAI BÁO BẰNG TAY (THAY CHO NetBeans) ---
     private javax.swing.JPanel boardPanel;
@@ -71,7 +71,7 @@ public class GameFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1; // (Không dùng nhưng giữ lại)
+    // private javax.swing.JPanel jPanel1; 
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblName1;
     private javax.swing.JLabel lblName2;
@@ -105,7 +105,7 @@ public class GameFrame extends javax.swing.JFrame {
         initManualComponents(); 
         applyTheme();
         
-        // Ensure boardPanel can host dynamic grids in the left area
+        // Đảm bảo boardPanel có thể chứa lưới động ở khu vực bên trái
         boardPanel.setLayout(new java.awt.BorderLayout());
         renderPlaceholderBoard();
     }
@@ -239,8 +239,7 @@ public class GameFrame extends javax.swing.JFrame {
         // Thêm panel bên phải vào layout chính
         getContentPane().add(eastPanel, BorderLayout.EAST);
 
-        // (jPanel1 không dùng đến)
-        jPanel1 = new JPanel();
+        // jPanel1 = new JPanel();
     }
 
 
@@ -360,7 +359,7 @@ public class GameFrame extends javax.swing.JFrame {
                 "Xác nhận", JOptionPane.YES_NO_OPTION);
         
         if (result == JOptionPane.YES_OPTION) {
-            // Send leave room message to server
+            // Gửi tin nhắn rời phòng đến server
             if (socketHandler != null) {
                 JsonObject payload = new JsonObject();
                 payload.addProperty("roomId", roomId);
@@ -548,6 +547,8 @@ public class GameFrame extends javax.swing.JFrame {
                 }
                 final int wordIdx = wordInputs.size();
                 final int charIdx = i;
+
+                // User gõ phím trên JTextField
                 tf.addKeyListener(new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
@@ -616,7 +617,7 @@ public class GameFrame extends javax.swing.JFrame {
             int len = 8;
             javax.swing.JPanel cells = new javax.swing.JPanel(new java.awt.GridLayout(1, len, 3, 3));
             cells.setBackground(Theme.COLOR_WHITE);
-            java.util.List<javax.swing.JTextField> inputs = new java.util.ArrayList<>();
+            List<javax.swing.JTextField> inputs = new ArrayList<>();
             for (int i = 0; i < len; i++) {
                 javax.swing.JTextField tf = new javax.swing.JTextField(1);
                 tf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -892,7 +893,7 @@ public class GameFrame extends javax.swing.JFrame {
             int opponentScore = Integer.parseInt(opponentScoreText);
             
             if (myScore > opponentScore) {
-                winner = "Chúc mừng! Bạn đã thắng!";
+                winner = "Bạn đã thắng!";
             } else if (opponentScore > myScore) {
                 winner = "Đối thủ đã thắng!";
             }
@@ -911,18 +912,10 @@ public class GameFrame extends javax.swing.JFrame {
         
         if (winnerId == selfUserId) {
             // Người chơi hiện tại thắng
-            if (winByCompletion) {
-                resultMessage = "Chúc mừng! Bạn hoàn thành hết từ!";
-            } else {
-                resultMessage = "Chúc mừng! Bạn đã thắng!";
-            }
+            resultMessage = "Bạn đã thắng!";
         } else {
             // Đối thủ thắng
-            if (winByCompletion) {
-                resultMessage = "Đối thủ hoàn thành hết từ!";
-            } else {
-                resultMessage = "Đối thủ đã thắng!";
-            }
+            resultMessage = "Đối thủ đã thắng!";
         }
         
         // Hiển thị kết quả trên label thời gian

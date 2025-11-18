@@ -3,10 +3,11 @@ package model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class MatchRoom {
     private String roomId;
-    private Integer matchId; // DB-generated id for the persisted match record
+    private Integer matchId; // ID được tạo từ DB cho bản ghi match đã lưu
     private int creatorId;
     private int opponentId;
     private long startTime;
@@ -55,25 +56,25 @@ public class MatchRoom {
         dto.put("status", status);
         dto.put("categoryCode", categoryCode);
         dto.put("categoryName", categoryName);
-        // Only expose hint and length to clients; do not expose filled/answer to prevent opponent peeking
-        java.util.List<java.util.Map<String, Object>> wordDtos = new java.util.ArrayList<>();
+        // Chỉ hiển thị gợi ý và độ dài cho client; không hiển thị filled/answer để ngăn đối thủ nhìn trộm
+        List<Map<String, Object>> wordDtos = new ArrayList<>();
         if (words != null) {
             for (WordInstance w : words) {
-                java.util.Map<String, Object> wd = new java.util.HashMap<>();
+                Map<String, Object> wd = new HashMap<>();
                 wd.put("hint", w.getHint());
                 wd.put("length", w.getFilled().length);
-                // For canonical word object we include only hint/length. Per-player
-                // revealed patterns are exposed separately via playerRevealed map.
+                // Đối với object từ gốc ta chỉ bao gồm gợi ý/độ dài. Các mẫu
+                // hiển thị riêng cho từng người chơi được hiển thị riêng qua playerRevealed map.
                 wordDtos.add(wd);
             }
         }
         dto.put("words", wordDtos);
-        // Build a concise players DTO (don't accidentally serialize personalWords)
-        java.util.Map<String, java.util.Map<String, Object>> playersDto = new java.util.HashMap<>();
+        // Tạo DTO người chơi gọn gàng (không vô tình serialize personalWords)
+        Map<String, Map<String, Object>> playersDto = new HashMap<>();
         for (Map.Entry<Integer, PlayerState> e : players.entrySet()) {
             Integer uid = e.getKey();
             PlayerState ps = e.getValue();
-            java.util.Map<String, Object> pd = new java.util.HashMap<>();
+            Map<String, Object> pd = new HashMap<>();
             pd.put("score", ps.getScore());
             pd.put("correctWords", ps.getCorrectWords());
             pd.put("lastScoreAt", ps.getLastScoreAt());
@@ -90,13 +91,13 @@ public class MatchRoom {
         }
         dto.put("players", playersDto);
 
-        // Include per-player revealed patterns so each client can render only their own filled letters
-        java.util.Map<String, java.util.List<String>> playerRevealed = new java.util.HashMap<>();
+        // Bao gồm các mẫu hiển thị riêng cho từng người chơi để mỗi client chỉ render các chữ cái đã điền của mình
+        Map<String, List<String>> playerRevealed = new HashMap<>();
         for (Map.Entry<Integer, PlayerState> e : players.entrySet()) {
             Integer uid = e.getKey();
             PlayerState ps = e.getValue();
-            java.util.List<String> reveals = new java.util.ArrayList<>();
-            java.util.List<WordInstance> pWords = ps.getPersonalWords();
+            List<String> reveals = new ArrayList<>();
+            List<WordInstance> pWords = ps.getPersonalWords();
             if (pWords != null) {
                 for (WordInstance pw : pWords) {
                     char[] f = pw.getFilled();
@@ -105,7 +106,7 @@ public class MatchRoom {
                     reveals.add(sb.toString());
                 }
             } else {
-                // Fallback: expose underscores for each canonical word length
+                // Phương án dự phòng: hiển thị gạch dưới cho độ dài mỗi từ gốc
                 if (words != null) {
                     for (WordInstance w : words) {
                         StringBuilder sb = new StringBuilder();

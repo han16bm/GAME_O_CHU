@@ -10,7 +10,7 @@ import java.util.List;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import model.MatchRoom;
+import model. MatchRoom;
 import model.User;
 import service.AuthService;
 import service.MatchService;
@@ -127,7 +127,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    // ------------------- Handlers -------------------
+    // Handlers 
 
     private void handleRegister(JsonObject json) {
         try {

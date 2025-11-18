@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class WordInstance {
     private String answer;
     private String hint;
@@ -19,7 +21,7 @@ public class WordInstance {
         char target = Character.toUpperCase(answer.charAt(idx));
         char input = Character.toUpperCase(ch);
         if (target == input) {
-            filled[idx] = answer.charAt(idx); // keep original casing as answer (upper)
+            filled[idx] = answer.charAt(idx); 
             return true;
         }
         wasTried[idx] = true;
@@ -42,32 +44,24 @@ public class WordInstance {
     public void setTried(int idx, boolean value) { wasTried[idx] = value; }
     public void setBonusGiven(boolean bonusGiven) { this.bonusGiven = bonusGiven; }
 
-    /**
-     * Reveal a number of random letters in this word as initial hints.
-     * Revealed letters are marked as tried so they won't award points when
-     * a player types them.
-     */
-    public void revealRandomLetters(int count) {
-        if (count <= 0) return;
-        java.util.List<Integer> idxs = new java.util.ArrayList<>();
-        for (int i = 0; i < answer.length(); i++) {
-            if (filled[i] != answer.charAt(i)) idxs.add(i);
-        }
-        java.util.Collections.shuffle(idxs, new java.util.Random());
-        int n = Math.min(count, idxs.size());
-        for (int k = 0; k < n; k++) {
-            int idx = idxs.get(k);
-            filled[idx] = answer.charAt(idx);
-            wasTried[idx] = true; // mark as already revealed
-        }
-    }
+    // // Hiển thị ngẫu nhiên một số chữ cái trong từ
+    // public void revealRandomLetters(int count) {
+    //     if (count <= 0) return;
+    //     java.util.List<Integer> idxs = new java.util.ArrayList<>();
+    //     for (int i = 0; i < answer.length(); i++) {
+    //         if (filled[i] != answer.charAt(i)) idxs.add(i);
+    //     }
+    //     java.util.Collections.shuffle(idxs, new java.util.Random());
+    //     int n = Math.min(count, idxs.size());
+    //     for (int k = 0; k < n; k++) {
+    //         int idx = idxs.get(k);
+    //         filled[idx] = answer.charAt(idx);
+    //         wasTried[idx] = true; 
+    //     }
+    // }
 
-    /**
-     * Reveal letters at the specified indices. This is used to apply the same
-     * reveal pattern to multiple per-player copies so both players see the
-     * same hint letters but keep independent filled/wasTried state.
-     */
-    public void revealAtIndices(java.util.List<Integer> indices) {
+    // Hiển thị các ô hint tại các vị trí chỉ định
+    public void revealAtIndices(List<Integer> indices) {
         if (indices == null || indices.isEmpty()) return;
         for (Integer idx : indices) {
             if (idx >= 0 && idx < filled.length) {

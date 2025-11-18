@@ -25,7 +25,6 @@ public class ServerMain {
     private UserService userService;
     private DictionaryService dictionaryService;
     private MatchService matchService;
-    private MatchHistoryController matchHistoryController;
     private final List<ClientHandler> clientHandlers;
     private final Map<Integer, ClientHandler> userIdToHandler;
     
@@ -35,11 +34,10 @@ public class ServerMain {
         userService = new UserService();
         dictionaryService = new DictionaryService();
         matchService = new MatchService(dictionaryService, userService);
-        matchHistoryController = new MatchHistoryController(userService);
         clientHandlers = new ArrayList<>();
         userIdToHandler = new HashMap<>();
 
-        // Provide a sender so services can push messages to users
+        // Cung cấp sender để services có thể gửi message đến users
         userService.setMessageSender((userId, message) -> sendToUser(userId, message));
     }
     

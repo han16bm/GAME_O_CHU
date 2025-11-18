@@ -133,7 +133,7 @@ public class MatchHistoryPanel extends JPanel {
             });
         }
         
-        // Notify the table that data has changed
+        // Thông báo cho bảng rằng dữ liệu đã thay đổi
         tableModel.fireTableDataChanged();
     }
 
